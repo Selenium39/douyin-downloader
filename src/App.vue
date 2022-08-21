@@ -20,7 +20,32 @@
       </el-row>
     </div>
     <div id="list">
-       
+      <el-table
+        :data="list"
+        style="width: 100%"
+        :header-cell-style="{ 'text-align': 'center' }"
+      >
+        <el-table-column align="center" prop="id" label="序号">
+        </el-table-column>
+        <el-table-column align="center" prop="cover" label="封面">
+          <template slot-scope="scope">
+            <el-image
+              style="width: 100px; height: 100px"
+              :src="scope.row.cover"
+              fit="cover"
+            ></el-image>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="title" label="标题">
+        </el-table-column>
+        <el-table-column align="center" prop="ratio" label="分辨率">
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template>
+            <el-button type="primary" size="small"><i class="el-icon-download"></i>下载</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
@@ -34,13 +59,13 @@ export default {
         type: "single",
         url: "8.25 CHI:/ look 别发呆 %看我造型say哇塞  https://v.douyin.com/Fpv7GVp/ 复制此链接，打开Dou音搜索，直接观看视频！",
       },
+      list: [],
     };
   },
   methods: {
     parse() {
       invoke("parse_dy", this.form).then((res) => {
-        console.log("解析结果");
-        console.log(res);
+        this.list = [res];
       });
     },
   },
