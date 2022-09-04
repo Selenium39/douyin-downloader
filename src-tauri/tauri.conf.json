@@ -13,7 +13,16 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "fs": {
+        "all": true, 
+        "scope":["$DOWNLOAD/*"]
+      },
+      "http": {
+        "all": true, 
+        "request": true,
+        "scope": ["https://aweme.snssdk.com/aweme/v1/*"]
+      }
     },
     "bundle": {
       "active": true,

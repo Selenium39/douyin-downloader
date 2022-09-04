@@ -11,6 +11,7 @@
     "tauri:dev": "vue-cli-service tauri:dev"
   },
   "dependencies": {
+    "@tauri-apps/api": "^1.0.2",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.9",
     "vue": "^2.6.14"

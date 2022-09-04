@@ -41,8 +41,14 @@
         <el-table-column align="center" prop="ratio" label="分辨率">
         </el-table-column>
         <el-table-column label="操作" align="center">
-          <template>
-            <el-button type="primary" size="small"><i class="el-icon-download"></i>下载</el-button>
+          <template slot-scope="scope">
+            <el-button
+              @click="download(scope.row.url,scope.row.title)"
+              :loading="downloading"
+              type="primary"
+              size="small"
+              ><i class="el-icon-download"></i>下载</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -51,6 +57,8 @@
 </template>
 
 <script>
+import { writeBinaryFile, BaseDirectory } from "@tauri-apps/api/fs";
+import { fetch, ResponseType } from "@tauri-apps/api/http";
 const invoke = window.__TAURI__.invoke;
 export default {
   data() {
@@ -60,12 +68,27 @@ export default {
         url: "8.25 CHI:/ look 别发呆 %看我造型say哇塞  https://v.douyin.com/Fpv7GVp/ 复制此链接，打开Dou音搜索，直接观看视频！",
       },
       list: [],
+      downloading:false
     };
   },
   methods: {
     parse() {
       invoke("parse_dy", this.form).then((res) => {
         this.list = [res];
+      });
+    },
+    async download(url,title) {
+      this.downloading = true
+      const res = await fetch(url, {
+        method: "GET",
+        timeout: 10000,
+        responseType: ResponseType.Binary,
+      }); 
+      await writeBinaryFile(`${title}.mp4`, res.data,{dir:BaseDirectory.Download})
+      this.downloading = false
+      this.$message({
+          message: `视频已下载至${BaseDirectory.Download}`,
+          type: 'success'
       });
     },
   },

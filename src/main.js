@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { Button,Input,Select,Option,Col,Row,Table,TableColumn,Image} from 'element-ui';
+import { Button,Input,Select,Option,Col,Row,Table,TableColumn,Image,Message} from 'element-ui';
 
 Vue.use(Button)
 Vue.use(Input)
@@ -11,6 +11,7 @@ Vue.use(Row)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Image)
+Vue.prototype.$message = Message
 
 Vue.config.productionTip = false
 
