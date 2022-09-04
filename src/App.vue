@@ -91,7 +91,7 @@ export default {
       if (!this.form.url) {
         this.form.url =
           this.form.parseType === "video"
-            ? "https://v.douyin.com/Fpv7GVp/"
+            ? "8.25 CHI:/ look 别发呆 %看我造型say哇塞  https://v.douyin.com/Fpv7GVp/ 复制此链接，打开Dou音搜索，直接观看视频！"
             : "https://www.douyin.com/user/MS4wLjABAAAACrxUoQvX2JVH3NeVKvErEEG59BuU5hs_Z-rH9dP0tH4";
       }
       invoke("parse_dy", this.form).then((res) => {
