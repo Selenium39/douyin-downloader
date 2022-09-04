@@ -25,9 +25,12 @@
     </div>
     <div id="list">
       <el-row>
-        <el-button @click="batchDownload" size="small" type="primary">批量下载</el-button>
+        <el-button @click="batchDownload" size="small" type="primary"
+          >批量下载</el-button
+        >
       </el-row>
       <el-table
+        ref="videoTable"
         :data="list"
         style="width: 100%"
         :header-cell-style="{ 'text-align': 'center' }"
@@ -109,17 +112,14 @@ export default {
         dir: BaseDirectory.Download,
       });
       video.downloading = false;
-      this.$message({
-        message: "视频已下载",
-        type: "success",
-      });
     },
-    async batchDownload(){
-      const tasks = []
-      this.selections.forEach(video=>{
-        tasks.push(this.download(video))
-      })
-      await Promise.all(tasks)
+    async batchDownload() {
+      const tasks = [];
+      this.selections.forEach((video) => {
+        tasks.push(this.download(video));
+      });
+      await Promise.all(tasks);
+      this.$refs.videoTable.clearSelection();
     },
     async preview(video) {
       const el = document.createElement("a");
