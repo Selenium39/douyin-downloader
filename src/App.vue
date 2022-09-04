@@ -11,7 +11,11 @@
         <el-col :span="15">
           <el-input
             v-model="form.url"
-            placeholder="请填入分享的视频链接"
+            :placeholder="
+              form.parseType === 'video'
+                ? '8.25 CHI:/ look 别发呆 %看我造型say哇塞  https://v.douyin.com/Fpv7GVp/ 复制此链接，打开Dou音搜索，直接观看视频！'
+                : 'https://www.douyin.com/user/MS4wLjABAAAACrxUoQvX2JVH3NeVKvErEEG59BuU5hs_Z-rH9dP0tH4'
+            "
           ></el-input>
         </el-col>
         <el-col :span="2">
@@ -49,6 +53,9 @@
               size="small"
               ><i class="el-icon-download"></i>下载</el-button
             >
+            <el-button @click="preview(scope.row)" type="primary" size="small"
+              ><i class="el-icon-video-play"></i>预览</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -65,34 +72,50 @@ export default {
     return {
       form: {
         parseType: "video",
-        // url: "8.25 CHI:/ look 别发呆 %看我造型say哇塞  https://v.douyin.com/Fpv7GVp/ 复制此链接，打开Dou音搜索，直接观看视频！",
-        url:"https://www.douyin.com/user/MS4wLjABAAAACrxUoQvX2JVH3NeVKvErEEG59BuU5hs_Z-rH9dP0tH4"
+        url: "",
       },
-      list: []
+      list: [],
     };
   },
   methods: {
     parse() {
+      if (!this.form.url) {
+        this.form.url =
+          this.form.parseType === "video"
+            ? "https://v.douyin.com/Fpv7GVp/"
+            : "https://www.douyin.com/user/MS4wLjABAAAACrxUoQvX2JVH3NeVKvErEEG59BuU5hs_Z-rH9dP0tH4";
+      }
       invoke("parse_dy", this.form).then((res) => {
-        res.forEach(item=>{
-          item.downloading = false
-        })
+        res.forEach((item) => {
+          item.downloading = false;
+        });
         this.list = res;
       });
     },
     async download(video) {
-      video.downloading=true
+      video.downloading = true;
       const res = await fetch(video.url, {
         method: "GET",
         timeout: 10000,
         responseType: ResponseType.Binary,
-      }); 
-      await writeBinaryFile(`${video.id}.mp4`, res.data,{dir:BaseDirectory.Download})
-      video.downloading = false
-      this.$message({
-          message: '视频已下载',
-          type: 'success'
       });
+      await writeBinaryFile(`${video.id}.mp4`, res.data, {
+        dir: BaseDirectory.Download,
+      });
+      video.downloading = false;
+      this.$message({
+        message: "视频已下载",
+        type: "success",
+      });
+    },
+    async preview(video) {
+      const el = document.createElement("a");
+      el.style.display = "none";
+      el.setAttribute("target", "_blank");
+      el.href = video.url;
+      document.body.appendChild(el);
+      el.click();
+      document.body.removeChild(el);
     },
   },
 };
