@@ -5,8 +5,11 @@
 - 支持下载无水印视频
 ![image](https://user-images.githubusercontent.com/29670394/188313105-7458ada5-8a93-4935-9635-c20e91485979.png)
 
-- 支持批量下载用户发布的所有视频
+- 支持批量下载用户发布的所有视频(安装目录为Downloads目录)
 ![image](https://user-images.githubusercontent.com/29670394/188313576-3ed60a0a-6340-4f6b-a071-f64c504dbb06.png)
+
+![image](https://user-images.githubusercontent.com/29670394/188315667-7d127fd8-b72a-44de-8252-08e2489136f3.png)
+
 
 ### 安装
 ```bash
