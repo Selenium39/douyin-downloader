@@ -19,16 +19,21 @@
           ></el-input>
         </el-col>
         <el-col :span="2">
-          <el-button type="primary" @click="parse">解析</el-button>
+          <el-button size="small" type="primary" @click="parse">解析</el-button>
         </el-col>
       </el-row>
     </div>
     <div id="list">
+      <el-row>
+        <el-button @click="batchDownload" size="small" type="primary">批量下载</el-button>
+      </el-row>
       <el-table
         :data="list"
         style="width: 100%"
         :header-cell-style="{ 'text-align': 'center' }"
+        @selection-change="handleSelectionChange"
       >
+        <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column align="center" prop="id" label="序号">
         </el-table-column>
         <el-table-column align="center" prop="cover" label="封面">
@@ -75,6 +80,7 @@ export default {
         url: "",
       },
       list: [],
+      selections: [],
     };
   },
   methods: {
@@ -108,6 +114,13 @@ export default {
         type: "success",
       });
     },
+    async batchDownload(){
+      const tasks = []
+      this.selections.forEach(video=>{
+        tasks.push(this.download(video))
+      })
+      await Promise.all(tasks)
+    },
     async preview(video) {
       const el = document.createElement("a");
       el.style.display = "none";
@@ -116,6 +129,9 @@ export default {
       document.body.appendChild(el);
       el.click();
       document.body.removeChild(el);
+    },
+    handleSelectionChange(val) {
+      this.selections = val;
     },
   },
 };
